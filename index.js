@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
 const fs = require('fs').promises;
 
-const { getTalkerData, addTalkerData } = require('./fs-utils');
+const { getTalkerData, addTalkerData, findTalkerById } = require('./fs-utils');
 
 const app = express();
 app.use(bodyParser.json());
@@ -23,6 +23,17 @@ app.get('/talker', async (req, res) => {
   }
   if (talkerData.length === 0) {
     res.status(200).json([]);
+  }
+});
+
+app.get('/talker/:id', async (req, res) => {
+  const { id } = req.params;
+  const numberId = Number(id);
+  const searchResult = await findTalkerById(numberId);
+  if (searchResult) {
+    res.status(200).json(searchResult);
+  } else {
+    res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   }
 });
 

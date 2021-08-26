@@ -1,13 +1,22 @@
 const fs = require('fs').promises;
 
 const getTalkerData = async () => {
-    const talker = './talker.json';
-return JSON.parse(await fs.readFile(talker, 'utf-8'));
+    const talkerFile = './talker.json';
+return JSON.parse(await fs.readFile(talkerFile, 'utf-8'));
 };
 
 const addTalkerData = async (dataToAdd) => {
-    const talker = './talker.json';
-    return fs.writeFile(talker, JSON.stringify(dataToAdd));
+    const talkerFile = './talker.json';
+    return fs.writeFile(talkerFile, JSON.stringify(dataToAdd));
 };
 
-module.exports = { getTalkerData, addTalkerData };
+const findTalkerById = async (id) => {
+    const talkerData = await getTalkerData();
+    return talkerData.find((talker) => talker.id === id);
+};
+
+module.exports = { 
+    getTalkerData,
+    addTalkerData,
+    findTalkerById, 
+};
