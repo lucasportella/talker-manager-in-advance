@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 
 const getTalkerData = async () => {
     const talkerFile = './talker.json';
-return JSON.parse(await fs.readFile(talkerFile, 'utf-8'));
+    return JSON.parse(await fs.readFile(talkerFile, 'utf-8'));
 };
 
 const addTalkerData = async (dataToAdd) => {
