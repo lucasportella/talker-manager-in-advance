@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
 
 const { getTalkerData, addTalkerData, findTalkerById, generateRandomToken } = require('./fs-utils');
+const authMiddleware = require('./middlewares');
 
 const app = express();
 app.use(bodyParser.json());
@@ -37,7 +38,7 @@ app.get('/talker/:id', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  
+
 });
 
 app.listen(PORT, () => {
