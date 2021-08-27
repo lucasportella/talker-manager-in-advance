@@ -30,6 +30,13 @@ const editTalkerById = async (reqBody, id) => {
     return talkerToEdit;
 };
 
+const deleteTalkerById = async (reqBody, id) => {
+    const numberId = Number(id);
+    const talkerData = await getTalkerData();
+    talkerData.forEach((talker, index) => 
+    (talker.id === numberId ? talkerData.splice(index, 1) : null));
+};
+
 const generateRandomToken = () => {
     let token = '';
     const stringLength = 16;
@@ -55,3 +62,10 @@ module.exports = {
     generateRandomToken,
     editTalkerById,
 };
+
+const numberId = 2;
+const myArray = [{ id: 2 }, { id: 3 }, { id: 5 }];
+console.log(myArray);
+myArray.forEach((talker, index) => 
+    (talker.id === numberId ? myArray.splice(index, 1) : null));
+    console.log(myArray);

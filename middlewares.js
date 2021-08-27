@@ -50,6 +50,7 @@ const talkObjValidator1 = (req, res, next) => {
             { message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios' },
             );
     }
+    // talk.rate !== 0 foi oq faltava para passar só no req 5, no 4 passava sem ele, oq parece um bug, pois se talk.rate existe, deveria executar o next()
     next();
 };
 
