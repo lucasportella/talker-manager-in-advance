@@ -45,9 +45,7 @@ app.get('/talker/search', talkerPostValidator, async (req, res) => {
 });
 
 app.get('/talker/:id', async (req, res) => {
-  const { id } = req.params;
-  const numberId = Number(id);
-  const searchResult = await findTalkerById(numberId);
+  const searchResult = await findTalkerById(req.params.id);
   if (searchResult) {
     return res.status(200).json(searchResult);
   } 

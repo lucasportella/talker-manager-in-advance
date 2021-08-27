@@ -16,8 +16,9 @@ const addTalkerData = async (dataToAdd) => {
 };
 
 const findTalkerById = async (id) => {
+    const numberId = Number(id);
     const talkerData = await getTalkerData();
-    return talkerData.find((talker) => talker.id === id);
+    return talkerData.find((talker) => talker.id === numberId);
 };
 
 const editTalkerById = async (reqBody, id) => {
