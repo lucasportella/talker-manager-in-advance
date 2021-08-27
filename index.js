@@ -1,19 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
-const { 
-    authMiddleware,
-    talkerPostValidator,
-    nameAgeValidator,
-    talkObjValidator1,
-    talkObjValidator2,
-  } = require('./middlewares');
+const {
+  authMiddleware,
+  talkerPostValidator,
+  nameAgeValidator,
+  talkObjValidator1,
+  talkObjValidator2,
+} = require('./middlewares');
 const {
   getTalkerData,
   addTalkerData,
   findTalkerById,
   generateRandomToken,
-  editTalkerById, 
+  editTalkerById,
   deleteTalkerById,
   searchTalkerByQuery,
 } = require('./fs-utils');
@@ -39,19 +39,24 @@ app.get('/talker', async (req, res) => {
   }
 });
 
-app.get('/talker/:id', async (req, res) => {
-  const { id } = req.params;
-  const numberId = Number(id);
-  const searchResult = await findTalkerById(numberId);
-  if (searchResult) {
-    res.status(200).json(searchResult);
-  } else {
-    res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
-  }
+app.get('/talker/search', talkerPostValidator, async (req, res) => {
+  const queryResult = await searchTalkerByQuery(req.query.q);
+  res.status(200).json(queryResult);
 });
 
-app.post('/login', authMiddleware, async (req, res) => 
-res.status(200).json({ token: generateRandomToken() }));
+// app.get('/talker/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const numberId = Number(id);
+//   const searchResult = await findTalkerById(numberId);
+//   if (searchResult) {
+//     res.status(200).json(searchResult);
+//   } else {
+//     res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+//   }
+// });
+
+app.post('/login', authMiddleware, async (req, res) =>
+  res.status(200).json({ token: generateRandomToken() }));
 
 app.post(
   '/talker',
@@ -60,9 +65,9 @@ app.post(
   talkObjValidator1,
   talkObjValidator2,
   async (req, res) => {
-  const newTalker = await addTalkerData(req.body);
-  res.status(201).json(newTalker); 
-},
+    const newTalker = await addTalkerData(req.body);
+    res.status(201).json(newTalker);
+  },
 );
 
 app.put(
@@ -72,19 +77,14 @@ app.put(
   talkObjValidator1,
   talkObjValidator2,
   async (req, res) => {
-  const updatedTalker = await editTalkerById(req.body, req.params.id);
-  res.status(200).json(updatedTalker);
-},
+    const updatedTalker = await editTalkerById(req.body, req.params.id);
+    res.status(200).json(updatedTalker);
+  },
 );
 
 app.delete('/talker/:id', talkerPostValidator, async (req, res) => {
   await deleteTalkerById(req.params.id);
   res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
-});
-
-app.get('/talker/search?q=searchTerm', talkerPostValidator, async (req, res) => {
-  const queryResult = await talkerPostValidator(req.query.searchTerm);
-  res.status(200).json(queryResult);
 });
 
 app.listen(PORT, () => {
