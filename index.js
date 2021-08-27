@@ -21,10 +21,6 @@ const {
 const app = express();
 app.use(bodyParser.json());
 
-app.use((err, req, res, next) => {
-  res.status(500).send(`Algo deu errado! Mensagem: ${err.message}`);
-});
-
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
@@ -87,6 +83,11 @@ app.delete('/talker/:id', talkerPostValidator, rescue(async (req, res) => {
   await deleteTalkerById(req.params.id);
   return res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
 }));
+
+app.use((err, req, res, next) => {
+  res.status(500).send(`Algo deu errado! Mensagem: ${err.message}`);
+  next(err);
+});
 
 app.listen(PORT, () => {
   console.log('Online');
