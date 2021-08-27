@@ -40,8 +40,9 @@ const deleteTalkerById = async (id) => {
 
 const searchTalkerByQuery = async (query) => {
     const talkerData = await getTalkerData();
-    talkerData.filter((talker) => talker.name.includes(query));
-    return talkerData;
+    if (!query || query === '') { return talkerData; }
+    const newTalkerData = talkerData.filter((talker) => talker.name.includes(query));
+    return newTalkerData;
 };
 
 const generateRandomToken = () => {
