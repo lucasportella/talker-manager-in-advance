@@ -54,10 +54,14 @@ app.post(
   talkObjValidator2,
   async (req, res) => {
   const talkerData = await getTalkerData();
+  const id = talkerData.length + 1;
+  const newTalker = { ...req.body, id };
+  console.log([newTalker]);
   talkerData.push((req.body));
-  await fs.writeFile('./talker.json', JSON.stringify([req.body]));
-  res.status(201).json(req.body); 
-});
+  await fs.writeFile('./talker.json', JSON.stringify([newTalker]));
+  res.status(201).json(newTalker); 
+},
+);
 
 app.listen(PORT, () => {
   console.log('Online');
