@@ -15,6 +15,7 @@ const {
   generateRandomToken,
   editTalkerById, 
   deleteTalkerById,
+  searchTalkerByQuery,
 } = require('./fs-utils');
 
 const app = express();
@@ -79,6 +80,11 @@ app.put(
 app.delete('/talker/:id', talkerPostValidator, async (req, res) => {
   await deleteTalkerById(req.params.id);
   res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
+});
+
+app.get('/talker/search?q=searchTerm', talkerPostValidator, async (req, res) => {
+  const queryResult = await talkerPostValidator(req.query.searchTerm);
+  res.status(200).json(queryResult);
 });
 
 app.listen(PORT, () => {

@@ -38,6 +38,12 @@ const deleteTalkerById = async (id) => {
     await fs.writeFile(talkerFile, JSON.stringify(talkerData));
 };
 
+const searchTalkerByQuery = async (query) => {
+    const talkerData = await getTalkerData();
+    talkerData.filter((talker) => talker.name.includes(query));
+    return talkerData;
+};
+
 const generateRandomToken = () => {
     let token = '';
     const stringLength = 16;
@@ -63,4 +69,5 @@ module.exports = {
     generateRandomToken,
     editTalkerById,
     deleteTalkerById,
+    searchTalkerByQuery,
 };
