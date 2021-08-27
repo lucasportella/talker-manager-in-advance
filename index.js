@@ -1,9 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
+const fs = require('fs').promises;
+const { authMiddleware,
+        talkerPostValidator,
+        nameAgeValidator,
+        talkObjValidator1,
+        talkObjValidator2,
+      } = require('./middlewares');
 
 const { getTalkerData, addTalkerData, findTalkerById, generateRandomToken } = require('./fs-utils');
-const authMiddleware = require('./middlewares');
 
 const app = express();
 app.use(bodyParser.json());
@@ -40,9 +46,17 @@ app.get('/talker/:id', async (req, res) => {
 app.post('/login', authMiddleware, async (req, res) => 
 res.status(200).json({ token: generateRandomToken() }));
 
-app.post('/talker', async (req, res) => {
-  await addTalkerData(req.body);
-  res.status(201).json(); 
+app.post(
+  '/talker',
+  talkerPostValidator,
+  nameAgeValidator,
+  talkObjValidator1,
+  talkObjValidator2,
+  async (req, res) => {
+  const talkerData = await getTalkerData();
+  talkerData.push((req.body));
+  await fs.writeFile('./talker.json', JSON.stringify([req.body]));
+  res.status(201).json(req.body); 
 });
 
 app.listen(PORT, () => {
