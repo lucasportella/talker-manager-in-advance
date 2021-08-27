@@ -6,6 +6,7 @@ const { authMiddleware,
         nameAgeValidator,
         talkObjValidator1,
         talkObjValidator2,
+        editTalkerById,
       } = require('./middlewares');
 
 const { getTalkerData, addTalkerData, findTalkerById, generateRandomToken } = require('./fs-utils');
@@ -54,6 +55,18 @@ app.post(
   async (req, res) => {
   const newTalker = await addTalkerData(req.body);
   res.status(201).json(newTalker); 
+},
+);
+
+app.put(
+  '/talker/:id',
+  talkerPostValidator,
+  nameAgeValidator,
+  talkObjValidator1,
+  talkObjValidator2,
+  async (req, res) => {
+  const updatedTalker = await editTalkerById(req.body, req.params.id);
+  res.status(200).json(updatedTalker);
 },
 );
 

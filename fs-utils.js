@@ -20,6 +20,16 @@ const findTalkerById = async (id) => {
     return talkerData.find((talker) => talker.id === id);
 };
 
+const editTalkerById = async (reqBody, id) => {
+    const numberId = Number(id);
+    const talkerData = await getTalkerData();
+    const talkerToEdit = { ...reqBody, id: numberId };
+    const updatedTalkers = talkerData.map((talker) => 
+        (talker.id === numberId ? talkerToEdit : talker));
+    await fs.writeFile(talkerFile, JSON.stringify(talkerToEdit));
+    return talkerToEdit;
+};
+
 const generateRandomToken = () => {
     let token = '';
     const stringLength = 16;
@@ -43,4 +53,5 @@ module.exports = {
     addTalkerData,
     findTalkerById,
     generateRandomToken,
+    editTalkerById,
 };
