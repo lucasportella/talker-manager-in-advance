@@ -11,7 +11,7 @@ const addTalkerData = async (dataToAdd) => {
     const newTalker = { ...dataToAdd, id };
     
     talkerData.push((newTalker));
-    await fs.writeFile(talkerFile, JSON.stringify([newTalker]));
+    await fs.writeFile(talkerFile, JSON.stringify(talkerData));
     return newTalker;
 };
 

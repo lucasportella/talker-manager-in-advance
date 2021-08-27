@@ -44,16 +44,16 @@ app.get('/talker/search', talkerPostValidator, async (req, res) => {
   res.status(200).json(queryResult);
 });
 
-// app.get('/talker/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const numberId = Number(id);
-//   const searchResult = await findTalkerById(numberId);
-//   if (searchResult) {
-//     res.status(200).json(searchResult);
-//   } else {
-//     res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
-//   }
-// });
+app.get('/talker/:id', async (req, res) => {
+  const { id } = req.params;
+  const numberId = Number(id);
+  const searchResult = await findTalkerById(numberId);
+  if (searchResult) {
+    res.status(200).json(searchResult);
+  } else {
+    res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  }
+});
 
 app.post('/login', authMiddleware, async (req, res) =>
   res.status(200).json({ token: generateRandomToken() }));
