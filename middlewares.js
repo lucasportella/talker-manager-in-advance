@@ -15,4 +15,9 @@ const authMiddleware = (req, res, next) => {
     next();
 };
 
+const talkerPostValidator = (req, res, next) => {
+    const { name, age, talk: { watchedAt, rate } } = req.body;
+    const { Authorization } = req.headers;
+};
+
 module.exports = authMiddleware;
