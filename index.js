@@ -1,14 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
-const { authMiddleware,
-        talkerPostValidator,
-        nameAgeValidator,
-        talkObjValidator1,
-        talkObjValidator2,
-      } = require('./middlewares');
-
-const { getTalkerData, addTalkerData, findTalkerById, generateRandomToken, editTalkerById } = require('./fs-utils');
+const { 
+    authMiddleware,
+    talkerPostValidator,
+    nameAgeValidator,
+    talkObjValidator1,
+    talkObjValidator2,
+  } = require('./middlewares');
+const {
+  getTalkerData,
+  addTalkerData,
+  findTalkerById,
+  generateRandomToken,
+  editTalkerById, 
+  deleteTalkerById,
+} = require('./fs-utils');
 
 const app = express();
 app.use(bodyParser.json());
@@ -70,6 +77,7 @@ app.put(
 );
 
 app.delete('/talker/:id', talkerPostValidator, async (req, res) => {
+  await deleteTalkerById(res.params.id);
   res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
 });
 
