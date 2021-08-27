@@ -6,10 +6,9 @@ const { authMiddleware,
         nameAgeValidator,
         talkObjValidator1,
         talkObjValidator2,
-        editTalkerById,
       } = require('./middlewares');
 
-const { getTalkerData, addTalkerData, findTalkerById, generateRandomToken } = require('./fs-utils');
+const { getTalkerData, addTalkerData, findTalkerById, generateRandomToken, editTalkerById } = require('./fs-utils');
 
 const app = express();
 app.use(bodyParser.json());

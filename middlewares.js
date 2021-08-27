@@ -45,7 +45,7 @@ const nameAgeValidator = (req, res, next) => {
 
 const talkObjValidator1 = (req, res, next) => {
     const { talk } = req.body;
-    if ((!talk || !talk.watchedAt) || !talk.rate) {
+    if ((!talk || !talk.watchedAt) || (!talk.rate && talk.rate !== 0)) {
         return res.status(400).json(
             { message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios' },
             );
@@ -74,5 +74,5 @@ module.exports = {
     talkerPostValidator,
     nameAgeValidator,
     talkObjValidator1,
-    talkObjValidator2, 
+    talkObjValidator2,
 };
