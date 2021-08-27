@@ -40,6 +40,11 @@ app.get('/talker/:id', async (req, res) => {
 app.post('/login', authMiddleware, async (req, res) => 
 res.status(200).json({ token: generateRandomToken() }));
 
+app.post('/talker', async (req, res) => {
+  await addTalkerData(req.body);
+  res.status(201).json(); 
+});
+
 app.listen(PORT, () => {
   console.log('Online');
 });

@@ -1,13 +1,13 @@
 const fs = require('fs').promises;
 
-const getTalkerData = async () => {
-    const talkerFile = './talker.json';
-    return JSON.parse(await fs.readFile(talkerFile, 'utf-8'));
-};
+const talkerFile = './talker.json';
+
+const getTalkerData = async () => JSON.parse(await fs.readFile(talkerFile, 'utf-8'));
 
 const addTalkerData = async (dataToAdd) => {
-    const talkerFile = './talker.json';
-    return fs.writeFile(talkerFile, JSON.stringify(dataToAdd));
+    const talkerData = await getTalkerData();
+    talkerData.push(dataToAdd);
+    return fs.writeFile(talkerFile, JSON.stringify(talkerData));
 };
 
 const findTalkerById = async (id) => {
@@ -32,6 +32,15 @@ const generateRandomToken = () => {
     return token;
     // source https://jsfiddle.net/brightmatrix/a8tpLun0/
 };
+
+addTalkerData({
+    name: 'Danielle Santos',
+    age: 56,
+    talk: {
+      watchedAt: '22/10/2019',
+      rate: 8,
+    },
+  });
 
 module.exports = { 
     getTalkerData,
