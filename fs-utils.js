@@ -6,8 +6,13 @@ const getTalkerData = async () => JSON.parse(await fs.readFile(talkerFile, 'utf-
 
 const addTalkerData = async (dataToAdd) => {
     const talkerData = await getTalkerData();
-    talkerData.push((dataToAdd));
-    await fs.writeFile(talkerFile, JSON.stringify(dataToAdd));
+
+    const id = talkerData.length + 1;
+    const newTalker = { ...dataToAdd, id };
+    
+    talkerData.push((newTalker));
+    await fs.writeFile(talkerFile, JSON.stringify([newTalker]));
+    return newTalker;
 };
 
 const findTalkerById = async (id) => {

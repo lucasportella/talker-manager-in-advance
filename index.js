@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
-const fs = require('fs').promises;
 const { authMiddleware,
         talkerPostValidator,
         nameAgeValidator,
@@ -53,12 +52,7 @@ app.post(
   talkObjValidator1,
   talkObjValidator2,
   async (req, res) => {
-  const talkerData = await getTalkerData();
-  const id = talkerData.length + 1;
-  const newTalker = { ...req.body, id };
-  console.log([newTalker]);
-  talkerData.push((req.body));
-  await fs.writeFile('./talker.json', JSON.stringify([newTalker]));
+  const newTalker = await addTalkerData(req.body);
   res.status(201).json(newTalker); 
 },
 );
