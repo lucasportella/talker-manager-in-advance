@@ -77,7 +77,7 @@ app.put(
 );
 
 app.delete('/talker/:id', talkerPostValidator, async (req, res) => {
-  await deleteTalkerById(res.params.id);
+  await deleteTalkerById(req.params.id);
   res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
 });
 
