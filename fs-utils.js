@@ -26,7 +26,7 @@ const editTalkerById = async (reqBody, id) => {
     const talkerToEdit = { ...reqBody, id: numberId };
     const updatedTalkers = talkerData.map((talker) => 
         (talker.id === numberId ? talkerToEdit : talker));
-    await fs.writeFile(talkerFile, JSON.stringify([talkerToEdit]));
+    await fs.writeFile(talkerFile, JSON.stringify(updatedTalkers));
     return talkerToEdit;
 };
 

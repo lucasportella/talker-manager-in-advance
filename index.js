@@ -32,16 +32,16 @@ app.get('/', (_request, response) => {
 app.get('/talker', async (req, res) => {
   const talkerData = await getTalkerData();
   if (talkerData.length > 0) {
-    res.status(200).json(talkerData);
+    return res.status(200).json(talkerData);
   }
   if (talkerData.length === 0) {
-    res.status(200).json([]);
+    return res.status(200).json([]);
   }
 });
 
 app.get('/talker/search', talkerPostValidator, async (req, res) => {
   const queryResult = await searchTalkerByQuery(req.query.q);
-  res.status(200).json(queryResult);
+  return res.status(200).json(queryResult);
 });
 
 app.get('/talker/:id', async (req, res) => {
@@ -49,10 +49,9 @@ app.get('/talker/:id', async (req, res) => {
   const numberId = Number(id);
   const searchResult = await findTalkerById(numberId);
   if (searchResult) {
-    res.status(200).json(searchResult);
-  } else {
-    res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
-  }
+    return res.status(200).json(searchResult);
+  } 
+    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
 
 app.post('/login', authMiddleware, async (req, res) =>
@@ -66,7 +65,7 @@ app.post(
   talkObjValidator2,
   async (req, res) => {
     const newTalker = await addTalkerData(req.body);
-    res.status(201).json(newTalker);
+    return res.status(201).json(newTalker);
   },
 );
 
@@ -78,13 +77,13 @@ app.put(
   talkObjValidator2,
   async (req, res) => {
     const updatedTalker = await editTalkerById(req.body, req.params.id);
-    res.status(200).json(updatedTalker);
+    return res.status(200).json(updatedTalker);
   },
 );
 
 app.delete('/talker/:id', talkerPostValidator, async (req, res) => {
   await deleteTalkerById(req.params.id);
-  res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
+  return res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
 });
 
 app.listen(PORT, () => {
