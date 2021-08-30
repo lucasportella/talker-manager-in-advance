@@ -29,6 +29,11 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
+app.use((err, req, res, next) => {
+  res.status(500).send(`Algo deu errado! Mensagem: ${err.message}`);
+  next(err);
+});
+
 app.get('/talker', rescue(async (req, res) => {
   const talkerData = await getTalkerData();
   if (talkerData.length > 0) {
@@ -83,11 +88,6 @@ app.delete('/talker/:id', talkerPostValidator, rescue(async (req, res) => {
   await deleteTalkerById(req.params.id);
   return res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
 }));
-
-app.use((err, req, res, next) => {
-  res.status(500).send(`Algo deu errado! Mensagem: ${err.message}`);
-  next(err);
-});
 
 app.listen(PORT, () => {
   console.log('Online');
